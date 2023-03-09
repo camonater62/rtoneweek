@@ -30,6 +30,7 @@ inline bool aabb::hit(const ray& r, double t_min, double t_max) const {
         if (t_max <= t_min)
             return false;
     }
+    return true;
 }
 
 aabb surrounding_box(aabb box0, aabb box1) {
