@@ -76,7 +76,7 @@ class perlin {
             auto accum = 0.0;
             for (int i = 0; i < 2; i++) 
                 for (int j = 0; j < 2; j++)
-                    for (int k = 0; k < 2; j++)
+                    for (int k = 0; k < 2; k++)
                         accum += (i*u + (1-i)*(1-u))*
                                  (j*v + (1-j)*(1-v))*
                                  (k*w + (1-k)*(1-w))*c[i][j][k];
