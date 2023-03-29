@@ -275,7 +275,6 @@ int main() {
         aperture = 0.1;
         break;
 
-    default:
     case 2:
         world = two_spheres();
         background = color(0.7, 0.8, 1);
@@ -308,11 +307,12 @@ int main() {
         vfov = 20.0;
         break;
 
+    default:
     case 6:
         world = cornell_box();
         aspect_ratio = 1.0;
         image_width = 600;
-        samples_per_pixel = 1500;
+        samples_per_pixel = 10000;
         background = color(0, 0, 0);
         lookfrom = point3(278, 278, -800);
         lookat = point3(278, 278, 0);
@@ -375,6 +375,7 @@ int main() {
     pool.Wait();
     pool.Stop();
 
+    stbi_flip_vertically_on_write(true);
     int res = stbi_write_png(
         "image.png", image_width, image_height, 3, pixel_data.get(), 3 * image_width);
 
