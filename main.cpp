@@ -266,6 +266,7 @@ int main() {
     color background(0, 0, 0);
 
     switch (0) {
+    default:
     case 1:
         world = random_scene();
         background = color(0.7, 0.8, 1);
@@ -307,7 +308,6 @@ int main() {
         vfov = 20.0;
         break;
 
-    default:
     case 6:
         world = cornell_box();
         aspect_ratio = 1.0;
@@ -352,12 +352,14 @@ int main() {
 
     // Multi-threading
     ThreadPool pool;
+    pool.Start();
 
     // Render
     for (int j = image_height - 1; j >= 0; --j) {
-        for (int i = 0; i < image_width; ++i) {
-            pool.QueueJob([i, j, &image_width, &image_height, &samples_per_pixel, &cam, &background,
+        pool.QueueJob([j, &image_width, &image_height, &samples_per_pixel, &cam, &background,
                               &world, &pixel_data]() {
+            for (int i = 0; i < image_width; ++i) {
+                
                 color pixel_color(0, 0, 0);
                 for (int s = 0; s < samples_per_pixel; ++s) {
                     auto u = double(i + random_double()) / (image_width - 1);
@@ -367,11 +369,11 @@ int main() {
                 }
                 write_color(
                     pixel_data, i, j, image_width, image_height, pixel_color, samples_per_pixel);
-            });
-        }
+                
+            }
+        });
     }
-
-    pool.Start();
+    
     pool.Wait();
     pool.Stop();
 
